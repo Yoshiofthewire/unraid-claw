@@ -73,27 +73,36 @@ graphql_post() {
   local session_cookie="${UNRAID_SESSION_COOKIE:-}"
   local ep
   local -a curl_args
+  local config_file
   ep="$(endpoint)"
+
+  # Create secure temporary config file for curl (keeps API key out of process list)
+  config_file=$(mktemp) || { echo "Failed to create temp config file for curl" >&2; return 1; }
+  chmod 600 "$config_file" || { rm -f "$config_file"; return 1; }
+  trap "rm -f '$config_file'" RETURN
+
+  # Write headers to config file (more secure than command-line arguments)
+  {
+    echo "header = \"Content-Type: application/json\""
+    printf "header = \"x-api-key: %s\"\n" "$UNRAID_API_KEY"
+    echo "header = \"X-Requested-With: XMLHttpRequest\""
+    if [[ -n "$csrf_token" ]]; then
+      printf "header = \"X-CSRF-TOKEN: %s\"\n" "$csrf_token"
+    fi
+    if [[ -n "$session_cookie" ]]; then
+      printf "header = \"Cookie: %s\"\n" "$session_cookie"
+    fi
+  } > "$config_file"
 
   curl_args=(
     -sS
+    --config "$config_file"
     --connect-timeout "$timeout"
     --max-time "$timeout"
     -o "$body_file"
     -w "%{http_code}"
     -X POST "$ep"
-    -H "Content-Type: application/json"
-    -H "x-api-key: ${UNRAID_API_KEY}"
-    -H "X-Requested-With: XMLHttpRequest"
   )
-
-  if [[ -n "$csrf_token" ]]; then
-    curl_args+=( -H "X-CSRF-TOKEN: ${csrf_token}" )
-  fi
-
-  if [[ -n "$session_cookie" ]]; then
-    curl_args+=( -H "Cookie: ${session_cookie}" )
-  fi
 
   curl "${curl_args[@]}" --data "$query_json" 2>"$err_file"
 }

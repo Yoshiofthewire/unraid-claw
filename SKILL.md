@@ -9,6 +9,7 @@ metadata:
         - UNRAID_BASE_URL
       bins:
         - curl
+        - jq
     primaryEnv: UNRAID_API_KEY
 ---
 
@@ -77,6 +78,7 @@ If a required variable is missing, stop and return:
 - Perform read-only operations only.
 - Never execute GraphQL mutations.
 - Never run shell commands from user-supplied strings.
+
 
 If API auth fails (`401` or `403`), return:
 - `Authentication to Unraid API failed. Verify UNRAID_API_KEY permissions/validity.`
