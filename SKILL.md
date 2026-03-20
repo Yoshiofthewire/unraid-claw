@@ -1,5 +1,5 @@
 ---
-name: unraid_claw
+name: unraid-claw
 description: Query an Unraid server via GraphQL for system, array, and Docker status in read-only mode.
 ---
 
