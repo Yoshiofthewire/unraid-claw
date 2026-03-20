@@ -9,7 +9,6 @@ This repository contains an OpenClaw skill that checks Unraid health through the
 - Lists Docker container status
 - Provides a read-only connection test harness
 - Captures periodic snapshots for reporting and alerting
-- Supports webhook or local-log notifications for scheduled runs
 
 ## Project files
 
@@ -68,7 +67,6 @@ If your distro uses a different trust mechanism, follow the distro-specific CA t
    UNRAID_CSRF_TOKEN=your_csrf_token_if_required   # optional
    UNRAID_SESSION_COOKIE=your_cookie_if_required   # optional
    UNRAID_TIMEOUT_SECONDS=10
-   UNRAID_NOTIFY_WEBHOOK_URL=https://example.invalid/webhook   # optional
 
 3. Load environment variables into your shell:
    set -a

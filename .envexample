@@ -15,10 +15,7 @@ UNRAID_TIMEOUT_SECONDS=10
 # Default is repository-local .state directory.
 # UNRAID_STATE_DIR=/path/to/state
 
-# Optional: webhook notification settings.
-# Set webhook URL to enable HTTP notifications.
-# UNRAID_NOTIFY_WEBHOOK_URL=https://example.invalid/webhook
-UNRAID_NOTIFY_TIMEOUT_SECONDS=8
+# Optional: notification settings.
 UNRAID_NOTIFY_HOST_LABEL=tower
 
 # Optional: alert thresholds.
