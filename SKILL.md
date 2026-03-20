@@ -111,6 +111,7 @@ Script exit mapping for automation:
 
 - Timeout: return partial data and identify timed-out section(s).
 - Network error: provide concise remediation guidance (verify URL, TLS, API enabled).
+- Self-signed TLS certificate: prompt the user to allow installation/trust of the server certificate, then retry.
 - Auth error: use the exact auth-failure message above.
 - Unknown GraphQL errors: provide a redacted, concise summary.
 
